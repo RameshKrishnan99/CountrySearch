@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.example.countrysearch.ui.main.MainViewModel" />
+
+        <variable
+            name="listener"
+            type="com.example.countrysearch.util.ClickListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:onClick="@{() -> listener.onClick()}"
+            android:paddingStart="@dimen/margin_16dp"
+            android:paddingTop="@dimen/margin_16dp"
+            android:paddingEnd="@dimen/margin_16dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_flag"
+                android:layout_width="@dimen/height_40dp"
+                android:layout_height="@dimen/height_40dp"
+                android:layout_marginBottom="@dimen/margin_16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_default_image" />
+
+            <TextView
+                android:id="@+id/textView30"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_16dp"
+                android:singleLine="true"
+                android:text="@{utils.getName(viewmodel.langValue,attendees.nameEn,attendees.nameAr)}"
+                android:textAlignment="viewStart"
+                android:textSize="@dimen/font_14sp"
+                app:layout_constraintBottom_toTopOf="@+id/textView32"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@+id/iv_flag"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Name" />
+
+            <TextView
+                android:id="@+id/textView32"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_16dp"
+                android:layout_marginBottom="@dimen/margin_16dp"
+                android:singleLine="true"
+                android:text="@{utils.getName(viewmodel.langValue,attendees.titleEn,attendees.titleAr)}"
+                android:textAlignment="viewStart"
+                android:textSize="@dimen/font_12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/textView30"
+                app:layout_constraintStart_toEndOf="@+id/iv_flag"
+                app:layout_constraintTop_toBottomOf="@+id/textView30"
+                tools:text="Designation" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
