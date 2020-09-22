@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.example.countrysearch.model.CountryResponseItem" />
+
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_countryName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="@dimen/margin_16dp"
+                android:textSize="@dimen/font_24sp"
+                android:text="@{model.name}"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Country Name" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tv_countryName">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <include
+                        layout="@layout/detail_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:drawableIcon="@{@drawable/ic_government}"
+                        app:drawableName="@{@string/capital}"
+                        app:name="@{model.capital}" />
+
+                    <include
+                        layout="@layout/detail_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:drawableIcon="@{@drawable/ic_language}"
+                        app:drawableName="@{@string/language}"
+                        app:name="@{model.nativeName}" />
+
+                    <include
+                        layout="@layout/detail_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:drawableIcon="@{@drawable/ic_region}"
+                        app:drawableName="@{@string/region}"
+                        app:name="@{model.region}" />
+
+                    <include
+                        layout="@layout/detail_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:drawableIcon="@{@drawable/ic_population}"
+                        app:drawableName="@{@string/population}"
+                        app:name="@{model.population.toString()}" />
+
+                    <include
+                        layout="@layout/detail_item"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:drawableIcon="@{@drawable/ic_area}"
+                        app:drawableName="@{@string/area}"
+                        app:name="@{model.area.toString()}" />
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</layout>

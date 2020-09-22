@@ -33,75 +33,63 @@
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_16dp"
                 android:layout_marginTop="@dimen/margin_16dp"
+                android:layout_marginEnd="@dimen/margin_16dp"
                 android:layout_marginBottom="@dimen/margin_16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                android:background="@drawable/shape_rect_curve_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <EditText
+                    android:id="@+id/editText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_16dp"
-                    android:layout_marginEnd="@dimen/margin_16dp"
-                    android:background="@drawable/shape_rect_curve_white"
+                    android:background="@color/transparent"
+                    android:drawableStart="@drawable/ic_icon_search"
+                    android:drawablePadding="@dimen/margin_8dp"
+                    android:drawableTint="#898D92"
+                    android:ems="10"
+                    android:hint="@string/search_hint"
+                    android:inputType="textPersonName"
+                    android:paddingStart="@dimen/margin_12dp"
+                    android:paddingTop="@dimen/margin_12dp"
+                    android:paddingEnd="@dimen/margin_8dp"
+                    android:paddingBottom="@dimen/margin_12dp"
+                    android:text="@={viewmodel.editTextContent}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/light_gray"
+                    android:textSize="@dimen/font_14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_cancel"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView28"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <EditText
-                        android:id="@+id/editText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:background="@color/transparent"
-                        android:ems="10"
-                        android:hint="@string/search_hint"
-                        android:inputType="textPersonName"
-                        android:paddingTop="@dimen/margin_12dp"
-                        android:paddingBottom="@dimen/margin_12dp"
-                        android:paddingStart="@dimen/margin_12dp"
-                        android:paddingEnd="@dimen/margin_8dp"
-                        android:drawableStart="@drawable/ic_icon_search"
-                        android:drawableTint="#898D92"
-                        android:drawablePadding="@dimen/margin_8dp"
-                        android:text="@={viewmodel.editTextContent}"
-                        android:textAlignment="viewStart"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/light_gray"
-                        android:textSize="@dimen/font_14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/imageView28"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:hint="What you are looking for" />
-
-                    <ImageView
-                        android:id="@+id/imageView28"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_12dp"
-                        android:layout_marginEnd="@dimen/margin_12dp"
-                        android:visibility="visible"
-                        android:onClick="@{() -> listener.onClick(-1)}"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_close_gray" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
+                <ImageView
+                    android:id="@+id/imageView28"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_12dp"
+                    android:layout_marginEnd="@dimen/margin_12dp"
+                    android:onClick="@{() -> listener.onClick(-1)}"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_close_gray" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+        </com.google.android.material.appbar.AppBarLayout>
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_myEvents"
+            android:id="@+id/rv_countryList"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:nestedScrollingEnabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/appBarLayout"
             app:layout_constraintStart_toStartOf="parent"
@@ -110,17 +98,16 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_noData"
-            android:visibility="gone"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewmodel.langValue ? viewmodel.pageKeyValue.calendarEventSearch_calEventSearchNoData_en : viewmodel.pageKeyValue.calendarEventSearch_calEventSearchNoData_ar}"
+            android:text="@string/search_not_found"
             android:textColor="@color/black"
-            android:fontFamily="@font/frutigerlt_arabic_roman"
-            android:textSize="@dimen/myfont_14sp"
+            android:textSize="@dimen/font_14sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/appBarLayout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-            tools:text="Searched Data not found" />
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

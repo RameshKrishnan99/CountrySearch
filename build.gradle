@@ -19,6 +19,15 @@ allprojects {
         google()
         jcenter()
     }
+    ext {
+        glideVersion = '4.9.0'
+        constraintLayoutVersion = '1.1.3'
+        coroutinesVersion = "1.3.3"
+        gsonVersion = '2.8.2'
+        okhttp = '3.10.0'
+        retrofit = '2.6.0'
+    }
+
 }
 
 task clean(type: Delete) {

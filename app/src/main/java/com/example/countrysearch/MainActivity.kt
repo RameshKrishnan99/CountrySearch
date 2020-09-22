@@ -2,9 +2,11 @@ package com.example.countrysearch
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.countrysearch.model.CountryResponseItem
 import com.example.countrysearch.ui.main.MainFragment
+import com.example.countrysearch.util.ClickListener
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),ClickListener<CountryResponseItem> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -14,5 +16,9 @@ class MainActivity : AppCompatActivity() {
                     .replace(R.id.container, MainFragment.newInstance())
                     .commitNow()
         }
+    }
+
+    override fun onClick(model: CountryResponseItem) {
+
     }
 }
