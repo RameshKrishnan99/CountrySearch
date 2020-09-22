@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.countrysearch.R
 import com.example.countrysearch.databinding.AdapterCountryItemBinding
 import com.example.countrysearch.model.CountryResponseItem
-import com.example.countrysearch.ui.main.MainFragment
 import com.example.countrysearch.util.ClickListener
 import com.example.countrysearch.util.ViewHolder
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
@@ -22,7 +21,7 @@ class CountryAdapter(
 ) :
     RecyclerView.Adapter<ViewHolder<AdapterCountryItemBinding>>() {
     private val TAG: String = "CountryAdapter"
-    private val data = ArrayList<CountryResponseItem>()
+    private var data = ArrayList<CountryResponseItem>()
 
 
     override fun onCreateViewHolder(
@@ -61,10 +60,18 @@ class CountryAdapter(
     }
 
     fun setData(list: MutableList<CountryResponseItem>?) {
-        data.clear()
+
         list?.let {
-            data.addAll(it)
+            data = list as ArrayList<CountryResponseItem>
         }
         notifyDataSetChanged()
     }
+
+    fun searchData(text: String) {
+        /*data.forEach {
+
+        }*/
+//        notifyDataSetChanged()
+    }
+
 }

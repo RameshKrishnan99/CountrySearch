@@ -26,4 +26,5 @@
     <dimen name="font_24sp">24sp</dimen>
     <dimen name="font_26sp">26sp</dimen>
     <dimen name="height_40dp">40dp</dimen>
+    <dimen name="height_50dp">50dp</dimen>
 </resources>

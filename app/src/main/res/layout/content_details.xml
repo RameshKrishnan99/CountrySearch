@@ -28,9 +28,9 @@
                 android:gravity="center"
                 android:padding="@dimen/margin_16dp"
                 android:textSize="@dimen/font_24sp"
-                android:text="@{model.name}"
+                android:text="@string/details"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Country Name" />
+                tools:text="Details" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

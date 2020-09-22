@@ -27,8 +27,8 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_flag"
-                android:layout_width="@dimen/height_40dp"
-                android:layout_height="@dimen/height_40dp"
+                android:layout_width="@dimen/height_50dp"
+                android:layout_height="@dimen/height_50dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -42,13 +42,15 @@
                 android:layout_marginEnd="@dimen/margin_16dp"
                 android:singleLine="true"
                 android:text="@{model.name}"
+                android:textColor="@color/black"
                 android:textAlignment="viewStart"
-                android:textSize="@dimen/font_14sp"
+                android:textSize="@dimen/font_16sp"
                 app:layout_constraintBottom_toTopOf="@+id/tv_capital"
                 app:layout_constraintEnd_toStartOf="@+id/iv_arrow"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toEndOf="@+id/iv_flag"
+                app:layout_constraintTop_toTopOf="@+id/iv_flag"
                 tools:text="Country Name" />
 
             <TextView
@@ -60,6 +62,7 @@
                 android:text="@{model.capital}"
                 android:textAlignment="viewStart"
                 android:textSize="@dimen/font_12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_flag"
                 app:layout_constraintEnd_toEndOf="@+id/tv_countryName"
                 app:layout_constraintStart_toEndOf="@+id/iv_flag"
                 app:layout_constraintTop_toBottomOf="@+id/tv_countryName"

@@ -46,6 +46,10 @@ class MainFragment : Fragment(), ClickListener<CountryResponseItem> {
         })
         var dividerItemDecoration = DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         bind.rvCountryList.addItemDecoration(dividerItemDecoration)
+
+        viewModel.editTextContent.observe(viewLifecycleOwner, Observer {
+            adapter.searchData(it)
+        })
     }
 
     override fun onClick(model: CountryResponseItem) {

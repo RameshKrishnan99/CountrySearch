@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CountrySearch</string>
+    <string name="app_name">Countries List</string>
     <string name="search_hint">Search for Country</string>
     <string name="search_not_found">No country for this keyword</string>
     <string name="capital">Capital</string>
@@ -7,4 +7,5 @@
     <string name="language">Language</string>
     <string name="population">Population</string>
     <string name="area">Area</string>
+    <string name="details">Details</string>
 </resources>

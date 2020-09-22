@@ -2,6 +2,7 @@ package com.example.countrysearch.ui.details
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.example.countrysearch.R
@@ -14,6 +15,7 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+
         binding = DataBindingUtil.setContentView<ActivityDetailBinding>(
             this,
             R.layout.activity_detail
@@ -21,10 +23,17 @@ class DetailActivity : AppCompatActivity() {
             this.setLifecycleOwner(this@DetailActivity)
             this.model = intent.getSerializableExtra("country_details") as CountryResponseItem
         }
+        binding.toolbar.apply {
+            title = binding.model?.name
+        }
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
         Glide.with(this)
             .load(binding.model?.flag)
             .fitCenter()
             .placeholder(R.drawable.ic_default_image)
             .into(binding.toolbarImage)
     }
+
 }

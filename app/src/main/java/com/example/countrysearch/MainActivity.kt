@@ -6,7 +6,7 @@ import com.example.countrysearch.model.CountryResponseItem
 import com.example.countrysearch.ui.main.MainFragment
 import com.example.countrysearch.util.ClickListener
 
-class MainActivity : AppCompatActivity(),ClickListener<CountryResponseItem> {
+class MainActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +18,5 @@ class MainActivity : AppCompatActivity(),ClickListener<CountryResponseItem> {
         }
     }
 
-    override fun onClick(model: CountryResponseItem) {
 
-    }
 }
