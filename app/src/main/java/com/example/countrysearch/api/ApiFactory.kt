@@ -16,5 +16,11 @@ object ApiFactory {
             .build().create(Api::class.java)
     }
 
+    fun weatherService(): Api {
+        return Retrofit.Builder()
+            .baseUrl(BuildConfig.WEATHER_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build().create(Api::class.java)
+    }
 
 }

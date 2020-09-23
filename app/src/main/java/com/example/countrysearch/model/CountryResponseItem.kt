@@ -17,7 +17,7 @@ data class CountryResponseItem(
     var gini: Double? = 0.0,
     var languages: List<Language>? = listOf(),
     var latlng: List<Double>? = listOf(),
-    var name: String? = "",
+    var name: String = "",
     var nativeName: String? = "",
     var numericCode: String? = "",
     var population: Int? = 0,

@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId "com.example.countrysearch"
         minSdkVersion 23
-        targetSdkVersion 29
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
 
@@ -24,6 +24,8 @@ android {
         }
         debug {
             buildConfigField "String", "URL", '"https://restcountries.eu"'
+            buildConfigField "String", "WEATHER_URL", '"http://dataservice.accuweather.com"'
+            buildConfigField "String", "API_KEY", '"TxSCaVMsM3exMyGa6xtJWSzGG3QYCjj1"'
         }
     }
     dataBinding {
@@ -45,7 +47,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofit"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofit"
     implementation "com.squareup.okhttp3:okhttp:$rootProject.okhttp"
-
+    implementation 'androidx.palette:palette:1.0.0'
     implementation project(path: ':library')
 
     implementation 'com.github.bumptech.glide:glide:4.10.0'

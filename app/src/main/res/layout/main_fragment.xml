@@ -14,17 +14,22 @@
         <variable
             name="listener"
             type="com.example.countrysearch.util.ClickListener" />
+
+        <variable
+            name="model"
+            type="com.example.countrysearch.model.weather.WeatherDetailsItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg_countrypage">
+        android:background="@color/colorPrimary">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:theme="@style/AppTheme.AppBarOverlay"
             app:layout_constraintEnd_toEndOf="parent"
@@ -65,17 +70,16 @@
                     android:textColorHint="@color/light_gray"
                     android:textSize="@dimen/font_14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView28"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_clear"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/imageView28"
+                    android:id="@+id/iv_clear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_12dp"
-                    android:layout_marginEnd="@dimen/margin_12dp"
-                    android:onClick="@{() -> listener.onClick(-1)}"
+                    android:onClick="@{() -> listener.onClick(1)}"
+                    android:padding="@dimen/margin_12dp"
                     android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -83,17 +87,28 @@
                     app:srcCompat="@drawable/ic_close_gray" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
+
         </com.google.android.material.appbar.AppBarLayout>
 
+
+        <include
+            android:id="@+id/weather"
+            layout="@layout/weather_item"
+            android:layout_margin="@dimen/margin_8dp"
+            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+            app:model="@{model}"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_countryList"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/appBarLayout"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+            app:layout_constraintTop_toBottomOf="@+id/weather"
             tools:listitem="@layout/adapter_country_item" />
 
         <androidx.appcompat.widget.AppCompatTextView

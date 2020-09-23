@@ -16,8 +16,7 @@ import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 
 
 class CountryAdapter(
-    val context: Context,
-    val listener: ClickListener<CountryResponseItem>
+    val listener: ClickListener<Any>
 ) :
     RecyclerView.Adapter<ViewHolder<AdapterCountryItemBinding>>() {
     private val TAG: String = "CountryAdapter"
@@ -67,11 +66,6 @@ class CountryAdapter(
         notifyDataSetChanged()
     }
 
-    fun searchData(text: String) {
-        /*data.forEach {
 
-        }*/
-//        notifyDataSetChanged()
-    }
 
 }
