@@ -11,11 +11,11 @@ interface Api {
     @GET("/rest/v2/all")
     suspend fun getCountryList(): ArrayList<CountryResponseItem>
 
-    @GET("/locations/v1/cities/search?apikey=TxSCaVMsM3exMyGa6xtJWSzGG3QYCjj1&language=en")
+    @GET("/locations/v1/cities/search?apikey=nBnOuDPc8PoFvDCv9zCX3ODHJQaYLfqO&language=en")
     suspend fun getLocationKey(@Query("q") cityname: String): ArrayList<LocationkeyItem>
 
 
-    @GET("/forecasts/v1/hourly/1hour/{location}?apikey=TxSCaVMsM3exMyGa6xtJWSzGG3QYCjj1&language=en&details=true&metric=true")
+    @GET("/forecasts/v1/hourly/1hour/{location}?apikey=nBnOuDPc8PoFvDCv9zCX3ODHJQaYLfqO&language=en&details=true&metric=true")
     suspend fun getWeatherApi(@Path("location") location: String): ArrayList<WeatherDetailsItem>
 
 

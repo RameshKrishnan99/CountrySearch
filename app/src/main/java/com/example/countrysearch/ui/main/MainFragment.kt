@@ -1,11 +1,15 @@
 package com.example.countrysearch.ui.main
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
+import android.os.Looper
 import android.util.Log
 import android.view.*
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,10 +18,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.countrysearch.R
 import com.example.countrysearch.databinding.MainFragmentBinding
 import com.example.countrysearch.model.CountryResponseItem
+import com.example.countrysearch.model.weather.WeatherDetailsItem
 import com.example.countrysearch.ui.adapter.CountryAdapter
 import com.example.countrysearch.ui.details.DetailActivity
 import com.example.countrysearch.util.ClickListener
+import com.google.android.gms.location.*
 import java.util.*
+
 
 class MainFragment : Fragment(), ClickListener<Any> {
 
@@ -27,6 +34,9 @@ class MainFragment : Fragment(), ClickListener<Any> {
 
     private lateinit var bind: MainFragmentBinding
     private lateinit var viewModel: MainViewModel
+    lateinit var fusedLocationClient: FusedLocationProviderClient
+    lateinit var mLocationCallback: LocationCallback
+    lateinit var mLocationRequest: LocationRequest
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,9 +49,10 @@ class MainFragment : Fragment(), ClickListener<Any> {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
         bind.viewmodel = viewModel
         bind.listener = this
+        bind.model = WeatherDetailsItem()
         bind.rvCountryList.layoutManager = LinearLayoutManager(requireContext())
         val adapter = CountryAdapter(this@MainFragment)
         bind.rvCountryList.adapter = adapter
@@ -49,6 +60,7 @@ class MainFragment : Fragment(), ClickListener<Any> {
             DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
         bind.rvCountryList.addItemDecoration(dividerItemDecoration)
         viewModel.getCountryList().observe(viewLifecycleOwner, Observer {
+
             adapter.setData(it)
         })
         viewModel.searchData.observe(viewLifecycleOwner, Observer {
@@ -60,14 +72,22 @@ class MainFragment : Fragment(), ClickListener<Any> {
         viewModel.weatherData.observe(viewLifecycleOwner, Observer {
 
             bind.model = it
-//            bind.invalidateAll()
         })
 
+        viewModel.location.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                createLocationRequest()
+                createLocationCallback()
+                initLocationCallback()
+            }
+        })
+
+    }
+
+    private fun getWeather(lat: Double, long: Double) {
         val geocoder = Geocoder(requireContext(), Locale.getDefault())
-        val addresses: List<Address> = geocoder.getFromLocation(13.135991, 80.288951, 1)
+        val addresses: List<Address> = geocoder.getFromLocation(lat, long, 1)
         val cityName: String = addresses[0].locality
-//        val stateName: String = addresses[0].getAddressLine(1)
-//        val countryName: String = addresses[0].getAddressLine(2)
         Log.d("TAG", "cityName:$cityName ")
         viewModel.getLocationKey(cityName)
     }
@@ -82,6 +102,8 @@ class MainFragment : Fragment(), ClickListener<Any> {
             }
             is Int -> {
                 bind.editText.text.clear()
+                bind.appBarLayout.visibility = View.GONE
+                bind.weather.visibility = View.VISIBLE
             }
         }
 
@@ -95,8 +117,48 @@ class MainFragment : Fragment(), ClickListener<Any> {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.search) {
             bind.appBarLayout.visibility = View.VISIBLE
-            bind.weather.weatherItem.visibility = View.GONE
+            bind.weather.visibility = View.GONE
         }
         return super.onOptionsItemSelected(item)
     }
+
+    fun createLocationRequest(): LocationRequest {
+        mLocationRequest = LocationRequest()
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
+        return mLocationRequest
+    }
+
+    fun initLocationCallback() {
+
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+            fusedLocationClient.requestLocationUpdates(
+                mLocationRequest,
+                mLocationCallback, Looper.myLooper()
+            )
+        }
+
+    }
+
+    private fun createLocationCallback() {
+        mLocationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                super.onLocationResult(locationResult)
+
+                getWeather(
+                    locationResult.lastLocation.latitude,
+                    locationResult.lastLocation.longitude
+                )
+            }
+        }
+    }
+
+
 }

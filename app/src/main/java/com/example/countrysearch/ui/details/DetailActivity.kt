@@ -17,7 +17,6 @@ import com.bumptech.glide.request.target.Target
 import com.example.countrysearch.R
 import com.example.countrysearch.databinding.ActivityDetailBinding
 import com.example.countrysearch.model.CountryResponseItem
-import com.example.countrysearch.util.ClickListener
 
 
 class DetailActivity : AppCompatActivity() {
@@ -69,26 +68,15 @@ class DetailActivity : AppCompatActivity() {
                         bitmap?.let {
                             Palette.from(bitmap).generate({ palette ->
                                 if (palette != null) {
-                                    val vibrant: Int = palette.getVibrantColor(0x000000) // <=== color you want
-                                    val dominant: Int = palette.getDominantColor(0x000000) // <=== color you want
-                                    val vibrantLight: Int = palette.getLightVibrantColor(0x000000)
-                                    val vibrantDark: Int = palette.getDarkVibrantColor(0x000000)
-                                    val mutedColor: Int = palette.getMutedColor(0x000000)
-                                    val mutedLight: Int = palette.getLightMutedColor(0x000000)
-                                    val mutedDark: Int = palette.getDarkMutedColor(0x000000)
-                                    binding.toolbarImage.setBackgroundColor(vibrantLight)
-//                                    binding.collapseToolbar.setBackgroundColor(mutedColor)
-                                    //  mutedColor = palette.getMutedColor(R.attr.colorPrimary);
-//                                    binding.collapseToolbar.setStatusBarScrimColor(palette.getDarkMutedColor(vibrant))
-                                    binding.collapseToolbar.setContentScrimColor(palette.getMutedColor(vibrant))
+                                    val dominant: Int =
+                                        palette.getDominantColor(0x000000) // <=== color you want
+                                    binding.collapseToolbar.setStatusBarScrimColor(dominant)
+                                    binding.collapseToolbar.setContentScrimColor(dominant)
+                                    binding.collapseToolbar.setBackgroundColor(dominant)
                                 }
                             })
-
                         }
-
                     }
-
-
                     return false
                 }
 

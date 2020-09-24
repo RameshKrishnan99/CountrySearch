@@ -5,7 +5,7 @@ import java.util.*
 
 object Util {
     fun getCurrentDate(): String? {
-        val sdf = SimpleDateFormat("EEE MMM dd,yyyy")
+        val sdf = SimpleDateFormat("EEE MMM dd")
         return sdf.format(Date())
     }
     fun getCurrentTime(): String? {

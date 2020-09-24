@@ -1,46 +1,72 @@
 package com.example.countrysearch
 
-import android.app.AlertDialog
-import android.content.DialogInterface
-import android.location.Address
-import android.location.Geocoder
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDialog
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.example.countrysearch.ui.BaseActivity
 import com.example.countrysearch.ui.main.MainFragment
-import com.example.countrysearch.util.Connection
-import java.util.*
+import com.example.countrysearch.ui.main.MainViewModel
+import com.example.countrysearch.ui.retry.ConnectionRetry
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
+    private lateinit var viewModel: MainViewModel
+    private val pd by lazy {
+        AppCompatDialog(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-        if (Connection.isOnline(this)) {
-            if (savedInstanceState == null) {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, MainFragment.newInstance())
-                    .commitNow()
+
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel.showProgress.observe(this, Observer {
+
+            if (it) showProgress() else dismiss()
+        })
+
+        viewModel.connection.observe(this, Observer {
+            val currentFragment =
+                this.supportFragmentManager.findFragmentById(R.id.container)
+            if (it) {
+                if (savedInstanceState == null) {
+                    if (currentFragment !is MainFragment) {
+                        checkPermissionDetails()
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.container, MainFragment.newInstance())
+                            .commitNow()
+                    }
+                }
+            } else {
+                if (currentFragment !is MainFragment) {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.container, ConnectionRetry.newInstance())
+                        .commitNow()
+                }
             }
-        } else {
-            showNoInternetDialog()
-        }
-
+        })
+        viewModel.checkConnectivity()
 
     }
 
-    private fun showNoInternetDialog() {
-        try {
-            val alertDialog: AlertDialog = AlertDialog.Builder(this).create()
-            alertDialog.setTitle("Info")
-            alertDialog.setMessage("Internet not available, Cross check your internet connectivity and try again")
-            alertDialog.setIcon(android.R.drawable.ic_dialog_alert)
-            alertDialog.setButton("OK",
-                DialogInterface.OnClickListener { dialog, which -> finish() })
-            alertDialog.show()
-        } catch (e: Exception) {
-        }
+
+    private fun dismiss() {
+        if (pd.isShowing)
+            pd.dismiss()
     }
 
+    private fun showProgress() {
+        pd.setCancelable(false)
+        pd.show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            viewModel.location.value = true
+        }
+    }
 }

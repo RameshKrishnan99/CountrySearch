@@ -24,14 +24,15 @@
         android:id="@+id/linearLayout5"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimary">
+        android:background="@color/white">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
-            android:visibility="gone"
             android:layout_height="wrap_content"
+            android:elevation="0dp"
             android:theme="@style/AppTheme.AppBarOverlay"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -90,15 +91,22 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-
-        <include
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/weather"
-            layout="@layout/weather_item"
-            android:layout_margin="@dimen/margin_8dp"
-            android:layout_height="0dp"
             android:layout_width="match_parent"
-            app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
-            app:model="@{model}"/>
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:padding="@dimen/margin_8dp"
+            app:layout_constraintTop_toBottomOf="@+id/appBarLayout">
+
+            <include
+
+                layout="@layout/weather_item"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:model="@{model}"
+                app:viewmodel="@{viewmodel}" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_countryList"
