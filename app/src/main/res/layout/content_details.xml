@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -38,7 +37,7 @@
                         android:layout_height="wrap_content"
                         app:drawableIcon="@{@drawable/ic_government}"
                         app:drawableName="@{@string/capital}"
-                        app:name="@{model.capital}" />
+                        app:name="@{model.capital.empty?@string/na:model.capital}" />
 
                     <include
                         layout="@layout/detail_item"
@@ -46,7 +45,7 @@
                         android:layout_height="wrap_content"
                         app:drawableIcon="@{@drawable/ic_language}"
                         app:drawableName="@{@string/language}"
-                        app:name="@{model.nativeName}" />
+                        app:name="@{model.nativeName.empty?@string/na:model.nativeName}" />
 
                     <include
                         layout="@layout/detail_item"
@@ -54,7 +53,7 @@
                         android:layout_height="wrap_content"
                         app:drawableIcon="@{@drawable/ic_region}"
                         app:drawableName="@{@string/region}"
-                        app:name="@{model.region}" />
+                        app:name="@{model.region.empty?@string/na:model.region}" />
 
                     <include
                         layout="@layout/detail_item"
@@ -70,7 +69,7 @@
                         android:layout_height="wrap_content"
                         app:drawableIcon="@{@drawable/ic_area}"
                         app:drawableName="@{@string/area}"
-                        app:name="@{model.area.toString()}" />
+                        app:name="@{model.area==null?@string/na:model.area.toString()}" />
 
 
                 </LinearLayout>

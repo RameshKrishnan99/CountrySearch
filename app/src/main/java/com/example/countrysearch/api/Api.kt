@@ -19,4 +19,7 @@ interface Api {
     suspend fun getWeatherApi(@Path("location") location: String): ArrayList<WeatherDetailsItem>
 
 
+
+
+
 }

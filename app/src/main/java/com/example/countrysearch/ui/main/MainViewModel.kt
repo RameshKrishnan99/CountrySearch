@@ -13,6 +13,8 @@ import com.example.countrysearch.util.Util
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.Comparator
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private var app: Application
@@ -39,7 +41,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
                 is String -> error.value = response
 
-                is List<*> -> countryData.value = response as MutableList<CountryResponseItem>
+                is List<*> -> {
+                     val modelList = response as MutableList<CountryResponseItem>
+                    modelList.sortBy { it.name }
+                    countryData.value = modelList
+                }
             }
             showProgress.value = false
 

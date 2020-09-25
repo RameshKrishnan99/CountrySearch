@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -21,6 +22,7 @@ import com.example.countrysearch.model.CountryResponseItem
 import com.example.countrysearch.model.weather.WeatherDetailsItem
 import com.example.countrysearch.ui.adapter.CountryAdapter
 import com.example.countrysearch.ui.details.DetailActivity
+import com.example.countrysearch.ui.details.DetailFragment
 import com.example.countrysearch.util.ClickListener
 import com.google.android.gms.location.*
 import java.util.*
@@ -32,6 +34,7 @@ class MainFragment : Fragment(), ClickListener<Any> {
         fun newInstance() = MainFragment()
     }
 
+    private val TAG = MainFragment::class.qualifiedName
     private lateinit var bind: MainFragmentBinding
     private lateinit var viewModel: MainViewModel
     lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -42,19 +45,35 @@ class MainFragment : Fragment(), ClickListener<Any> {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.e(TAG, ": ${object{}.javaClass.enclosingMethod?.name}")
         setHasOptionsMenu(true)
         bind = MainFragmentBinding.inflate(inflater, container, false)
         return bind.root
     }
 
+    override fun onPause() {
+        super.onPause()
+        Log.e(TAG, ": ${object{}.javaClass.enclosingMethod?.name}")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e(TAG, ": ${object{}.javaClass.enclosingMethod?.name}")
+    }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProviders.of(requireActivity()).get(MainViewModel::class.java)
-        bind.viewmodel = viewModel
-        bind.listener = this
-        bind.model = WeatherDetailsItem()
-        bind.rvCountryList.layoutManager = LinearLayoutManager(requireContext())
-        val adapter = CountryAdapter(this@MainFragment)
+        bind.apply {
+            toolbar.title = resources.getString(R.string.app_name)
+            viewmodel = viewModel
+            listener = this@MainFragment
+            model = WeatherDetailsItem()
+            rvCountryList.layoutManager = LinearLayoutManager(requireContext())
+        }
+        (requireActivity() as AppCompatActivity)?.let {
+            it.setSupportActionBar(bind.toolbar)
+        }
+        val adapter = CountryAdapter(requireActivity() as ClickListener<Any>)
         bind.rvCountryList.adapter = adapter
         var dividerItemDecoration =
             DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
@@ -89,20 +108,21 @@ class MainFragment : Fragment(), ClickListener<Any> {
         val addresses: List<Address> = geocoder.getFromLocation(lat, long, 1)
         val cityName: String = addresses[0].locality
         Log.d("TAG", "cityName:$cityName ")
-        viewModel.getLocationKey(cityName)
+//        viewModel.getLocationKey(cityName)
     }
 
     override fun onClick(data: Any) {
 
         when (data) {
             is CountryResponseItem -> {
-                startActivity(Intent(requireContext(), DetailActivity::class.java).apply {
+                /*startActivity(Intent(requireContext(), DetailActivity::class.java).apply {
                     putExtra("country_details", data)
-                })
+                })*/
+
             }
             is Int -> {
                 bind.editText.text.clear()
-                bind.appBarLayout.visibility = View.GONE
+                bind.searchConstraint.visibility = View.GONE
                 bind.weather.visibility = View.VISIBLE
             }
         }
@@ -116,7 +136,7 @@ class MainFragment : Fragment(), ClickListener<Any> {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.search) {
-            bind.appBarLayout.visibility = View.VISIBLE
+            bind.searchConstraint.visibility = View.VISIBLE
             bind.weather.visibility = View.GONE
         }
         return super.onOptionsItemSelected(item)

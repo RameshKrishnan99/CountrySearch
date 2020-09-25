@@ -21,7 +21,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@drawable/custom_ripple_border"
             android:onClick="@{() -> listener.onClick(model)}"
             android:padding="@dimen/margin_16dp">
 
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16dp"
                 android:singleLine="true"
-                android:text="@{model.capital}"
+                android:text="@{model.capital.empty?@string/capital_na:model.capital}"
                 android:textAlignment="viewStart"
                 android:textSize="@dimen/font_12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/iv_flag"

@@ -26,22 +26,31 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
+
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBarLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:elevation="0dp"
             android:theme="@style/AppTheme.AppBarOverlay"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:elevation="10dp"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/search_constraint"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_16dp"
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/margin_16dp"
                 android:layout_marginEnd="@dimen/margin_16dp"
                 android:layout_marginBottom="@dimen/margin_16dp"
@@ -81,6 +90,7 @@
                     android:layout_height="wrap_content"
                     android:onClick="@{() -> listener.onClick(1)}"
                     android:padding="@dimen/margin_12dp"
+                    android:background="@drawable/custom_ripple_border"
                     android:visibility="visible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

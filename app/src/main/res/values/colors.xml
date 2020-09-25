@@ -12,4 +12,5 @@
     <color name="transparent_black">#4D000000</color>
     <color name="background_tint">#1A000000</color>
     <color name="blue">#3F51B5</color>
+    <color name="background">#F1F5F3</color>
 </resources>

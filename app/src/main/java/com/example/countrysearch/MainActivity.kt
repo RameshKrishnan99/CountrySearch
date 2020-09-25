@@ -6,13 +6,17 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.example.countrysearch.model.CountryResponseItem
 import com.example.countrysearch.ui.BaseActivity
+import com.example.countrysearch.ui.details.DetailFragment
+import com.example.countrysearch.ui.details.DetailFragment.Companion.ARG_PARAM1
 import com.example.countrysearch.ui.main.MainFragment
 import com.example.countrysearch.ui.main.MainViewModel
 import com.example.countrysearch.ui.retry.ConnectionRetry
+import com.example.countrysearch.util.ClickListener
 
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), ClickListener<Any> {
     private lateinit var viewModel: MainViewModel
     private val pd by lazy {
         AppCompatDialog(this)
@@ -67,6 +71,22 @@ class MainActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             viewModel.location.value = true
+        }
+    }
+
+    override fun onClick(model: Any) {
+        when (model) {
+            is CountryResponseItem -> {
+
+                supportFragmentManager.beginTransaction()
+                    .add(R.id.container, DetailFragment.newInstance().apply {
+                        arguments = Bundle().apply {
+                            putSerializable(ARG_PARAM1, model)
+                        }
+                    }).addToBackStack(null)
+                    .commit()
+
+            }
         }
     }
 }
