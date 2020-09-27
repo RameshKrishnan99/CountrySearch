@@ -11,6 +11,9 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.palette.graphics.Palette
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -59,7 +62,9 @@ class DetailFragment : Fragment() {
         }
 
         bind.toolbar.setNavigationOnClickListener(View.OnClickListener {
-            fragmentManager?.popBackStack()
+//            fragmentManager?.popBackStack()
+//            Navigation.findNavController(it).popBackStack()
+            findNavController().popBackStack()
         })
         Glide.with(requireActivity())
             .load(bind.model?.flag)
@@ -100,7 +105,8 @@ class DetailFragment : Fragment() {
                 }
 
             })
-            .placeholder(R.drawable.ic_default_image)
+            .placeholder(R.drawable.ic_loading)
+            .error(R.drawable.ic_cloud_offline)
             .into(bind.toolbarImage)
     }
 

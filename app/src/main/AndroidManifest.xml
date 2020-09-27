@@ -14,10 +14,6 @@
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".ui.details.DetailActivity"
-            android:screenOrientation="sensor"
-            android:theme="@style/AppThemeNoActionbar"></activity>
 
         <activity
             android:name=".MainActivity"
@@ -31,11 +27,11 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".receivers.NetworkChangeReceiver">
+        <!--<receiver android:name=".receivers.">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
-        </receiver>
+        </receiver>-->
     </application>
 
 </manifest>

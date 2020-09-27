@@ -26,8 +26,6 @@
                 android:id="@+id/collapse_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <LinearLayout
@@ -42,8 +40,7 @@
                         android:layout_height="200dp"
                         android:layout_marginStart="@dimen/margin_40dp"
                         android:layout_marginEnd="@dimen/margin_40dp"
-                        android:contentDescription="content_discription"
-                        android:fitsSystemWindows="true"
+                        android:contentDescription="Flag Image"
                         android:scaleType="fitCenter"
                         app:layout_collapseMode="parallax" />
                 </LinearLayout>

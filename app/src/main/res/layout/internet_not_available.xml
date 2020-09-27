@@ -3,13 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="viewmodel"
-            type="com.example.countrysearch.ui.main.MainViewModel" />
-
-    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -22,7 +15,7 @@
             android:id="@+id/tvNoInternet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableTop="@drawable/ic_icon_wifi"
+            android:drawableTop="@drawable/ic_wifi_off"
             android:drawablePadding="@dimen/margin_4dp"
             android:gravity="center"
             android:text="@string/no_internet"

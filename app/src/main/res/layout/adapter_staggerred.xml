@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="listener"
+            type="com.example.countrysearch.util.ClickListener" />
+
+        <variable
+            name="model"
+            type="com.example.countrysearch.model.CountryResponseItem" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="6dp"
+        android:elevation="4dp"
+        app:cardCornerRadius="6dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/parentContsraint"
+            android:layout_width="match_parent"
+            android:background="@drawable/custom_ripple_border"
+            android:onClick="@{() -> listener.onClick(model)}"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/iv_flag"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_loading" />
+
+            <TextView
+                android:id="@+id/tv_countryName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.name}"
+                android:padding="@dimen/margin_8dp"
+                android:maxLines="1"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@android:color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_flag"
+                tools:text="Country name" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

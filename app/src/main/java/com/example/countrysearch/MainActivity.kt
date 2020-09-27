@@ -3,20 +3,26 @@ package com.example.countrysearch
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatDialog
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.example.countrysearch.model.CountryResponseItem
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.example.countrysearch.ui.BaseActivity
 import com.example.countrysearch.ui.details.DetailFragment
-import com.example.countrysearch.ui.details.DetailFragment.Companion.ARG_PARAM1
 import com.example.countrysearch.ui.main.MainFragment
 import com.example.countrysearch.ui.main.MainViewModel
-import com.example.countrysearch.ui.retry.ConnectionRetry
-import com.example.countrysearch.util.ClickListener
+import com.example.countrysearch.util.Connection
+import com.google.android.material.snackbar.Snackbar
 
 
-class MainActivity : BaseActivity(), ClickListener<Any> {
+class MainActivity : BaseActivity() {
+    private lateinit var navHostFragment: NavHostFragment
+    private var doubleBackToExitPressedOnce: Boolean = false
+    private lateinit var navController: NavController
     private lateinit var viewModel: MainViewModel
     private val pd by lazy {
         AppCompatDialog(this)
@@ -25,35 +31,25 @@ class MainActivity : BaseActivity(), ClickListener<Any> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-
+        navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+        val navInflater = navController.navInflater
+        val graph = navInflater.inflate(R.navigation.nav_graph)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+
         viewModel.showProgress.observe(this, Observer {
 
             if (it) showProgress() else dismiss()
         })
 
-        viewModel.connection.observe(this, Observer {
-            val currentFragment =
-                this.supportFragmentManager.findFragmentById(R.id.container)
-            if (it) {
-                if (savedInstanceState == null) {
-                    if (currentFragment !is MainFragment) {
-                        checkPermissionDetails()
-                        supportFragmentManager.beginTransaction()
-                            .replace(R.id.container, MainFragment.newInstance())
-                            .commitNow()
-                    }
-                }
-            } else {
-                if (currentFragment !is MainFragment) {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.container, ConnectionRetry.newInstance())
-                        .commitNow()
-                }
-            }
-        })
-        viewModel.checkConnectivity()
+        if (Connection.isOnline(this))
+            graph.startDestination = R.id.mainFragment
+        else
+            graph.startDestination = R.id.connectionRetry
 
+        navController.graph = graph
+        checkPermissionDetails()
     }
 
 
@@ -74,19 +70,29 @@ class MainActivity : BaseActivity(), ClickListener<Any> {
         }
     }
 
-    override fun onClick(model: Any) {
-        when (model) {
-            is CountryResponseItem -> {
+    override fun onDestroy() {
+        super.onDestroy()
+        dismiss()
+    }
 
-                supportFragmentManager.beginTransaction()
-                    .add(R.id.container, DetailFragment.newInstance().apply {
-                        arguments = Bundle().apply {
-                            putSerializable(ARG_PARAM1, model)
-                        }
-                    }).addToBackStack(null)
-                    .commit()
-
+    override fun onBackPressed() {
+        if (getForegroundFragment() is DetailFragment) {
+            super.onBackPressed()
+        } else {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed()
+                return
             }
+            this.doubleBackToExitPressedOnce = true
+            val snackbar = Snackbar
+                .make(findViewById(android.R.id.content), resources.getString(R.string.doubleTap), Snackbar.LENGTH_LONG)
+            snackbar.show()
+            Handler().postDelayed(Runnable { doubleBackToExitPressedOnce = false }, 2000)
         }
+
+    }
+
+    private fun getForegroundFragment(): Fragment? {
+        return navHostFragment?.getChildFragmentManager()?.getFragments()?.get(0)
     }
 }

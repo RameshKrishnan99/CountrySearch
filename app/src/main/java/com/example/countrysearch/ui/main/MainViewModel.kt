@@ -13,19 +13,15 @@ import com.example.countrysearch.util.Util
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.launch
-import java.util.*
-import kotlin.Comparator
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private var app: Application
     val editTextContent = MutableLiveData<String>()
     val repo = MainRepository()
-    val error by lazy { MutableLiveData<String>() }
     val countryData by lazy { MutableLiveData<MutableList<CountryResponseItem>>() }
     val searchData by lazy { MutableLiveData<MutableList<CountryResponseItem>>() }
     val weatherData by lazy { MutableLiveData<WeatherDetailsItem>() }
     val showProgress by lazy { MutableLiveData<Boolean>() }
-    val connection by lazy { MutableLiveData<Boolean>() }
     val location by lazy { MutableLiveData<Boolean>() }
     private var searchJob: Job? = null
 
@@ -33,13 +29,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         app = application
     }
 
-    internal fun getCountryList(): MutableLiveData<MutableList<CountryResponseItem>> {
+    fun getCountryList(): MutableLiveData<MutableList<CountryResponseItem>> {
         showProgress.value = true
         viewModelScope.launch {
             when (val response = repo.callCountryListApi()) {
-                is Exception -> connection.value = false
-
-                is String -> error.value = response
+                is Exception -> countryData.value = null
 
                 is List<*> -> {
                      val modelList = response as MutableList<CountryResponseItem>
@@ -53,6 +47,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         return countryData
     }
 
+    fun retryCountryList() {
+        if (Connection.isOnline(app)) {
+            getCountryList()
+        }
+    }
 
     fun searchData(text: String) {
         viewModelScope.launch {
@@ -78,9 +77,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     internal fun getLocationKey(cityname: String) {
         viewModelScope.launch {
             when (val response = repo.callLocationApi(cityname)) {
-                is Exception -> error.value = "Network Error. Please Try again"
-
-                is String -> error.value = response
 
                 is List<*> -> {
                     val list = response.get(0) as WeatherDetailsItem
@@ -90,15 +86,13 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     }
                     weatherData.value = list
                 }
+
+                else -> weatherData.value = null
             }
         }
     }
 
-    fun checkConnectivity() {
-        showProgress.value = true
-        connection.value = Connection.isOnline(app)
-        showProgress.value = false
-    }
+
 
     fun getDate() = Util.getCurrentDate()
 
@@ -108,9 +102,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         if (model != null) {
             if (model.IsDaylight ?: false) {
                 model.IconPhrase?.let {
-                    if (it.contains("sun"))
+                    val icon = it.toLowerCase()
+                    if (icon.contains("sun") || icon.contains("clear"))
                         return app.resources.getDrawable(R.drawable.sunny)
-                    if (it.contains("cloud"))
+                    if (icon.contains("cloud"))
                         return app.resources.getDrawable(R.drawable.ic_clouds)
                 }
             } else {
