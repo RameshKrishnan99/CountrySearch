@@ -31,11 +31,11 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-        navHostFragment =
+        /*navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
         val navInflater = navController.navInflater
-        val graph = navInflater.inflate(R.navigation.nav_graph)
+        val graph = navInflater.inflate(R.navigation.nav_graph)*/
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
         viewModel.showProgress.observe(this, Observer {
@@ -43,12 +43,12 @@ class MainActivity : BaseActivity() {
             if (it) showProgress() else dismiss()
         })
 
-        if (Connection.isOnline(this))
+       /* if (Connection.isOnline(this))
             graph.startDestination = R.id.mainFragment
         else
             graph.startDestination = R.id.connectionRetry
 
-        navController.graph = graph
+        navController.graph = graph*/
         checkPermissionDetails()
     }
 
@@ -58,7 +58,7 @@ class MainActivity : BaseActivity() {
             pd.dismiss()
     }
 
-    private fun showProgress() {
+     fun showProgress() {
         pd.setCancelable(false)
         pd.show()
     }

@@ -10,8 +10,6 @@ import com.example.countrysearch.R
 import com.example.countrysearch.databinding.AdapterCountryItemBinding
 import com.example.countrysearch.model.CountryResponseItem
 import com.example.countrysearch.util.ClickListener
-import com.example.countrysearch.util.Connection
-import com.example.countrysearch.util.Util
 import com.example.countrysearch.util.ViewHolder
 import com.github.twocoffeesoneteam.glidetovectoryou.GlideToVectorYou
 
@@ -52,7 +50,13 @@ class CountryAdapter(
             } else {
                 val url = data[position].flag
                 Log.d(TAG, "url: $url")
-                GlideToVectorYou.justLoadImage(context as Activity, Uri.parse(url), this, R.drawable.ic_default_image,R.drawable.ic_default_image)
+                GlideToVectorYou.justLoadImage(
+                    context as Activity,
+                    Uri.parse(url),
+                    this,
+                    R.drawable.ic_default_image,
+                    R.drawable.ic_default_image
+                )
 
             }
 

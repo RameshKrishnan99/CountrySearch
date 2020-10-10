@@ -26,13 +26,13 @@ class ConnectionRetry : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val connectionLiveData = ConnectionLiveData(requireContext())
+       /* val connectionLiveData = ConnectionLiveData(requireContext())
         connectionLiveData.observe(viewLifecycleOwner, Observer {
             if (it) {
                 findNavController()
                     .navigate(R.id.action_connectionRetry_to_mainFragment)
             }
-        })
+        })*/
     }
 
 

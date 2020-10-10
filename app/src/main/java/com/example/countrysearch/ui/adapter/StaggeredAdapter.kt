@@ -20,7 +20,7 @@ class StaggeredAdapter(
     RecyclerView.Adapter<ViewHolder<AdapterStaggerredBinding>>() {
     private val TAG: String = "CountryAdapter"
     private var data = ArrayList<CountryResponseItem>()
-    private val set = ConstraintSet()
+//    private val set = ConstraintSet()
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -60,14 +60,14 @@ class StaggeredAdapter(
                 )
 
             }
-            var ratio:String
+            /*var ratio:String
             if (position % 2 == 0)
                 ratio = "1:1"
             else
                 ratio = "16:9"
             set.clone(holder.binding.parentContsraint)
             set.setDimensionRatio(this.id, ratio)
-            set.applyTo(holder.binding.parentContsraint)
+            set.applyTo(holder.binding.parentContsraint)*/
         }
 
     }

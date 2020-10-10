@@ -23,6 +23,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val weatherData by lazy { MutableLiveData<WeatherDetailsItem>() }
     val showProgress by lazy { MutableLiveData<Boolean>() }
     val location by lazy { MutableLiveData<Boolean>() }
+
+    val serverError = MutableLiveData<Boolean>()
     private var searchJob: Job? = null
 
     init {
@@ -84,6 +86,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                         date = Util.getCurrentDate()
                         time = Util.getCurrentTime()
                     }
+
                     weatherData.value = list
                 }
 

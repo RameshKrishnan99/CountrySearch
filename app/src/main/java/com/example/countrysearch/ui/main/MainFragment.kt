@@ -21,6 +21,7 @@ import com.example.countrysearch.model.CountryResponseItem
 import com.example.countrysearch.model.weather.WeatherDetailsItem
 import com.example.countrysearch.ui.adapter.StaggeredAdapter
 import com.example.countrysearch.ui.details.DetailFragment
+import com.example.countrysearch.ui.retry.ConnectionLiveData
 import com.example.countrysearch.util.ClickListener
 import com.google.android.gms.location.*
 import com.google.android.material.snackbar.Snackbar
@@ -68,7 +69,7 @@ class MainFragment : Fragment(), ClickListener<Any> {
 
         viewModel.countryData.observe(viewLifecycleOwner, Observer {
             if (it.isNullOrEmpty())
-                showServerError()
+                showServerError(true)
             else
                 showList(it)
 
@@ -76,7 +77,7 @@ class MainFragment : Fragment(), ClickListener<Any> {
         if (viewModel.countryData.value.isNullOrEmpty())
             viewModel.getCountryList()
 
-        if(!viewModel.editTextContent.value.isNullOrEmpty())
+        if (!viewModel.editTextContent.value.isNullOrEmpty())
             showSearch()
 
         viewModel.searchData.observe(viewLifecycleOwner, Observer {
@@ -100,7 +101,14 @@ class MainFragment : Fragment(), ClickListener<Any> {
                 initLocationCallback()
             }
         })
-
+        val connectionLiveData = ConnectionLiveData(requireContext())
+        connectionLiveData.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                viewModel.getCountryList()
+            }else{
+                showServerError(false)
+            }
+        })
     }
 
     private fun showList(it: MutableList<CountryResponseItem>) {
@@ -109,7 +117,9 @@ class MainFragment : Fragment(), ClickListener<Any> {
         bind.clServerError.visibility = View.GONE
     }
 
-    private fun showServerError() {
+    private fun showServerError(status: Boolean) {
+        viewModel.serverError.value = status
+
         bind.clServerError.visibility = View.VISIBLE
         bind.rvCountryList.visibility = View.GONE
     }

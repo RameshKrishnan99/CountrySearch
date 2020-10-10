@@ -18,9 +18,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
-        <action
+      <!--  <action
             android:id="@+id/action_mainFragment_to_connectionRetry"
-            app:destination="@id/connectionRetry" />
+            app:destination="@id/connectionRetry" />-->
 
     </fragment>
     <fragment
@@ -33,7 +33,7 @@
             app:popUpTo="@id/mainFragment"
             app:popUpToInclusive="true" />
     </fragment>
-    <fragment
+   <!-- <fragment
         android:id="@+id/connectionRetry"
         android:name="com.example.countrysearch.ui.retry.ConnectionRetry"
         android:label="ConnectionRetry"
@@ -48,6 +48,6 @@
             app:popExitAnim="@anim/slide_out_right"
             app:popUpTo="@+id/nav_graph"
             app:popUpToInclusive="true" />
-    </fragment>
+    </fragment>-->
 
 </navigation>
